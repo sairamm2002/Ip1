@@ -1,0 +1,18 @@
+﻿# Build output
+bin/
+obj/
+
+# IDE/VS
+.vs/
+*.user
+*.suo
+
+# SQLite WAL/SHM (keep .db only if you intend to)
+*.db-wal
+*.db-shm
+
+# Publish artifacts
+**/publish/
+
+# Logs
+*.log
