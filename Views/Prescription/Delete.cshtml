@@ -1,0 +1,24 @@
+﻿@model Prescription
+@{
+    ViewData["Title"] = "Delete Prescription";
+}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header py-3">
+                    <h2 class="my-0 fw-normal">Confirm Deletion</h2>
+                    <h3 class="my-0 fw-normal">@Model.MedicationName (@Model.FillStatus)</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Delete" method="post" class="d-flex justify-content-between">
+                        <input type="hidden" asp-for="PrescriptionId" />
+
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

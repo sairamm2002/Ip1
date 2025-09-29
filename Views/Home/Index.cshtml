@@ -1,0 +1,48 @@
+﻿@model List<Prescription>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">
+                       <a asp-controller="Prescription" asp-action="Add">Add New Prescription</a>
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>MedicationName</th>
+                                <th>FillStatus</th>
+                                <th>Cost</th>
+                                <th>RequestDate</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var prescriptionModel in Model)
+                            {
+                                <tr>
+                                    <td>@prescriptionModel.MedicationName</td>
+                                    <td>@prescriptionModel.FillStatus</td>
+                                    <td>@prescriptionModel.Cost</td>
+                                    <td>@prescriptionModel.RequestTime</td>
+                                    <td>
+                                        <a asp-controller="Prescription" asp-action="Edit"
+                                           asp-route-id="@prescriptionModel.PrescriptionId">Edit</a>
+                                        <a asp-controller="Prescription" asp-action="Delete"
+                                           asp-route-id="@prescriptionModel.PrescriptionId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
