@@ -1,35 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using Prescriptions.Models;
 
+using Prescriptions.Models;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+var home = Environment.GetEnvironmentVariable("HOME") ?? @"D:\home";
+var dataDir = Path.Combine(home, "data");
+Directory.CreateDirectory(dataDir);
+var dbPath = Path.Combine(dataDir, "app.db");
 
-builder.Services.AddDbContext<PrescriptionDatabaseContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("PrescriptionCtx")));
+builder.Services.AddDbContext<PrescriptionDatabaseContext>(opt =>
+    opt.UseSqlite($"Data Source={dbPath}"));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+// Optional: apply EF migrations on startup
+using (var scope = app.Services.CreateScope())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    var db = scope.ServiceProvider.GetRequiredService<PrescriptionDatabaseContext>();
+    db.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
-
+app.MapDefaultControllerRoute();
 app.Run();
